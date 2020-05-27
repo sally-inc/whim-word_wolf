@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="select">
       <img
         :src="require('../../assets/menu-left.svg')"
@@ -14,6 +14,21 @@
       />
     </div>
     <a class="fuwatto_btn_yellow" @click="start">スタート</a>
+    <div class="rights bottom">
+      <img
+        :src="require('@/assets/kawasaki.jpg')"
+        alt=""
+        width="50"
+        height="50"
+      />
+      <div class="item">
+        <div>カワサキファクトリー</div>
+        <div>原作者：川崎晋</div>
+        <div>
+          ボードゲーム：https://www.gentosha-edu.co.jp/book/b506749.html
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,6 +87,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+.container {
+  height: 100%;
+}
 .select {
   margin: 10px;
 }
@@ -111,5 +129,15 @@ export default {
   text-decoration: none;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.12), 0 3px 20px 0 rgba(0, 0, 0, 0.12),
     0 5px 6px -2px rgba(0, 0, 0, 0.2);
+}
+.rights {
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  font-size: 10px;
+}
+.item {
+  margin: auto 10px;
+  text-align: left;
 }
 </style>

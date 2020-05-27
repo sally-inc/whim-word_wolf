@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 import VueCountdown from "@chenfengyuan/vue-countdown";
+import whimClientVue from "whim-client-vue";
 
 Vue.component(VueCountdown.name, VueCountdown);
 
@@ -31,6 +32,8 @@ window.addEventListener(
 
 // wh.im本体との通信を開始
 window.parent.postMessage("connect", document.referrer);
+
+Vue.use(whimClientVue, { store });
 
 new Vue({
   store,
