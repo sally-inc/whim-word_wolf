@@ -9,7 +9,7 @@ const store = new Vuex.Store({
   state: {
     room: {}, // room information
     users: [], // information of users in the room
-    accessUserId: null, // information of user who play in this window
+    accessUser.id: null, // information of user who play in this window
     appState: {}
   },
   mutations: {
@@ -18,11 +18,10 @@ const store = new Vuex.Store({
       state.appState = room.appState || {};
     },
     setUsers(state, users) {
-      console.log(users);
       state.users = users;
     },
-    setAccessUserId(state, userId) {
-      state.accessUserId = userId;
+    setaccessUser.id(state, userId) {
+      state.accessUser.id = userId;
     },
     setAppState(state, appState) {
       state.appState = appState;
@@ -91,7 +90,7 @@ const store = new Vuex.Store({
   },
   getters: {
     accessUser: state => {
-      return state.users.find(user => user.id === state.accessUserId);
+      return state.users.find(user => user.id === state.accessUser.id);
     },
     phase: state => {
       return state.appState.phase;

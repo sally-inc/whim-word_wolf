@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     phase() {
-      return this.$store.getters.phase;
+      return this.$whim.state.phase;
     }
   }
 };

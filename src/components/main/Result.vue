@@ -10,35 +10,33 @@ export default {
   name: "Start",
   methods: {
     reset() {
-      this.$store.dispatch("resetAppState");
+      this.$whim.deleteState();
     }
   },
   computed: {
     result() {
       const votesCount = user => {
         return (
-          this.$store.state.appState.votes?.filter(vote => vote.to === user.id)
-            .length || 0
+          Object.values(this.$whim.state.votes)?.filter(
+            vote => vote.to === user.id
+          ).length || 0
         );
       };
 
       let max = 0;
       let maxUsers = [];
-      this.$store.state.users.forEach(user => {
+      this.$whim.users.forEach(user => {
         if (votesCount(user) > max) {
-          console.log(votesCount(user));
           max = votesCount(user);
           maxUsers = [user];
         } else if (votesCount(user) === max) {
           maxUsers.push(user);
         }
       });
-      console.log(max);
-      console.log(maxUsers);
       if (maxUsers.length !== 1) {
         return "引き分け！";
       }
-      if (maxUsers[0].id === this.$store.state.appState.minorityUserId) {
+      if (maxUsers[0].id === this.$whim.state.minorityUserId) {
         return "市民(多数派)の勝ち！";
       }
       return "ウルフ(少数派)の勝ち！";

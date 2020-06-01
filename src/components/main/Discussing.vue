@@ -23,7 +23,9 @@ export default {
   methods: {
     startVoting() {
       this.$refs.countdown.abort();
-      this.$store.dispatch("phase", "voting");
+      this.$whim.assignState({
+        phase: "voting"
+      });
     },
 
     transform(props) {

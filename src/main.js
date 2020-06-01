@@ -1,6 +1,6 @@
 import Vue from "vue";
+import Vuex from "vuex";
 import App from "./App.vue";
-import store from "./store";
 import VueCountdown from "@chenfengyuan/vue-countdown";
 import whimClientVue from "whim-client-vue";
 
@@ -10,30 +10,48 @@ Vue.config.productionTip = false;
 
 import "./assets/sass/style.scss";
 
-// wh.imから room / users情報が送られてきたら登録
-window.addEventListener(
-  "message",
-  event => {
-    if (event.data.room) {
-      store.commit("setRoom", event.data.room);
-    }
-    if (event.data.accessUserId) {
-      store.commit("setAccessUserId", event.data.accessUserId);
-    }
-    if (event.data.users) {
-      store.commit("setUsers", event.data.users);
-    }
-    if (event.data.appState) {
-      store.commit("setAppState", event.data.appState);
-    }
-  },
-  false
-);
-
-// wh.im本体との通信を開始
-window.parent.postMessage("connect", document.referrer);
-
+Vue.use(Vuex);
+const store = new Vuex.Store();
 Vue.use(whimClientVue, { store });
+
+const TOPICS = require("@/assets/topics.json");
+
+Vue.prototype.$gameStart = genre => {
+  let targetTopics;
+  if (genre === "random") {
+    targetTopics = TOPICS;
+  } else {
+    targetTopics = TOPICS.filter(topic => topic.genre === genre);
+  }
+  const topic = targetTopics[Math.floor(Math.random() * targetTopics.length)];
+
+  let majority, minority;
+  if (topic.group) {
+    const selected = topic.group.sort(() => 0.5 - Math.random()).slice(0, 2);
+    majority = selected[0];
+    minority = selected[1];
+  } else if (topic.majority && topic.minority) {
+    majority = topic.majority;
+    minority = topic.minority;
+  } else {
+    console.error("invalid json");
+  }
+  let userTopic = {};
+  Vue.prototype.$whim.users.map(user => {
+    userTopic[user.id] = majority;
+  });
+  const minorityUserId =
+    Vue.prototype.$whim.users[
+      Math.floor(Math.random() * Vue.prototype.$whim.users.length)
+    ].id;
+  userTopic[minorityUserId] = minority;
+  Vue.prototype.$whim.assignState({
+    genre: genre,
+    phase: "shuffling",
+    userTopic: userTopic,
+    minorityUserId: minorityUserId
+  });
+};
 
 new Vue({
   store,
