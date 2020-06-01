@@ -7,12 +7,12 @@
       <img :src="require('@/assets/shuffling.gif')" class="shuffling" />
     </div>
     <div v-else-if="status === 'visible'" class="card">
-      <span class="text--subtitle">{{
+      <span class="text--body text">{{
         $whim.state.userTopic[displayUser.id]
       }}</span>
     </div>
     <div v-else-if="status === 'wolf'" class="card wolf">
-      <span class="text--subtitle">{{
+      <span class="text--body text">{{
         $whim.state.userTopic[displayUser.id]
       }}</span>
     </div>
@@ -132,7 +132,7 @@ export default {
 
 .card {
   margin: 80px auto;
-  width: 300px;
+  width: 140px;
   height: 50px;
 
   border-radius: 4px;
@@ -141,8 +141,12 @@ export default {
   text-align: center;
 
   .shuffling {
-    width: 300px;
+    width: 140px;
     height: 50px;
+  }
+
+  .text {
+    line-height: 50px;
   }
 }
 

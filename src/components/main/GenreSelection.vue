@@ -16,18 +16,10 @@
     <a class="fuwatto_btn_yellow" @click="start">スタート</a>
     <div class="rights bottom">
       <img
-        :src="require('@/assets/kawasaki.jpg')"
+        :src="require('@/assets/wordwolf_kawasaki.png')"
         alt=""
-        width="50"
         height="50"
       />
-      <div class="item">
-        <div>カワサキファクトリー</div>
-        <div>原作者：川崎晋</div>
-        <div>
-          ボードゲーム：https://www.gentosha-edu.co.jp/book/b506749.html
-        </div>
-      </div>
     </div>
   </div>
 </template>

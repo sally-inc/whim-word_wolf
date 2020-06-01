@@ -17,8 +17,8 @@ export default {
     result() {
       const votesCount = user => {
         return (
-          Object.values(this.$whim.state.votes)?.filter(
-            vote => vote.to === user.id
+          Object.values(this.$whim.state?.votes || {})?.filter(
+            voteTo => voteTo === user.id
           ).length || 0
         );
       };
