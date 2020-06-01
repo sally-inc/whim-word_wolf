@@ -1,5 +1,4 @@
 import Vue from "vue";
-import Vuex from "vuex";
 import App from "./App.vue";
 import VueCountdown from "@chenfengyuan/vue-countdown";
 import whimClientVue from "whim-client-vue";
@@ -10,9 +9,7 @@ Vue.config.productionTip = false;
 
 import "./assets/sass/style.scss";
 
-Vue.use(Vuex);
-const store = new Vuex.Store();
-Vue.use(whimClientVue, { store });
+Vue.use(whimClientVue);
 
 const TOPICS = require("@/assets/topics.json");
 
@@ -54,6 +51,5 @@ Vue.prototype.$gameStart = genre => {
 };
 
 new Vue({
-  store,
   render: h => h(App)
 }).$mount("#app");
