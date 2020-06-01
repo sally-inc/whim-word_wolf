@@ -8,12 +8,12 @@
     </div>
     <div v-else-if="status === 'visible'" class="card">
       <span class="text--subtitle">{{
-        $store.state.appState.userTopic[displayUser.id]
+        $whim.state.userTopic[displayUser.id]
       }}</span>
     </div>
     <div v-else-if="status === 'wolf'" class="card wolf">
       <span class="text--subtitle">{{
-        $store.state.appState.userTopic[displayUser.id]
+        $whim.state.userTopic[displayUser.id]
       }}</span>
     </div>
     <div class="vote text--title" :class="voted ? 'voted' : ''">
@@ -27,24 +27,25 @@
 <script>
 export default {
   name: "Player",
-  props: ["displayUser"], // 表示されているUserの情報
+  props: {
+    displayUser: Object
+  },
   computed: {
     status() {
-      console.log(this.$store.getters.accessUser);
-      if (this.$store.getters.phase === "shuffling") {
+      if (this.$whim.state.phase === "shuffling") {
         return "shuffling";
       }
       if (
-        (this.$store.getters.phase === "discussing" ||
-          this.$store.getters.phase === "voting" ||
-          this.$store.getters.phase === "disclosuring") &&
-        this.$store.getters.accessUser === this.displayUser
+        (this.$whim.state.phase === "discussing" ||
+          this.$whim.state.phase === "voting" ||
+          this.$whim.state.phase === "disclosuring") &&
+        this.$whim.accessUser === this.displayUser
       ) {
         return "visible";
       }
 
-      if (this.$store.getters.phase === "result") {
-        if (this.$store.state.appState.minorityUserId === this.displayUser.id) {
+      if (this.$whim.state.phase === "result") {
+        if (this.$whim.state.minorityUserId === this.displayUser.id) {
           return "wolf";
         } else {
           return "visible";
@@ -53,55 +54,53 @@ export default {
       return "hidden";
     },
     voted() {
-      return this.$store.state.appState.votes?.some(
-        vote =>
-          vote.from === this.$store.state.accessUserId &&
-          vote.to === this.displayUser.id
+      return (
+        this.$whim.state.votes &&
+        this.$whim.state.votes[this.$whim.accessUser.id] === this.displayUser.id
       );
     },
     votedNames() {
-      const votes = this.$store.state.appState.votes;
-      if (!votes || this.$store.getters.phase === "voting") {
+      const votes = this.$whim.state.votes;
+      if (!votes || this.$whim.state.phase === "voting") {
         return [];
       }
 
-      return votes
-        .filter(vote => vote.to === this.displayUser.id)
-        .map(
-          vote =>
-            this.$store.state.users.find(user => user.id === vote.from).name
-        );
+      return Object.entries(votes)
+        .filter(vote => vote[1] === this.displayUser.id)
+        .map(vote => this.$whim.users.find(user => user.id === vote[0]).name);
     },
     containerClass() {
-      if (this.$store.getters.phase === "voting") {
+      if (this.$whim.state.phase === "voting") {
         if (this.voted) {
           return "voted";
         }
         if (
-          this.$store.state.appState.votes?.some(
-            vote => vote.from === this.$store.state.accessUserId
-          )
+          this.$whim.state.votes &&
+          this.$whim.state.votes[this.$whim.accessUser.id] !== undefined
         ) {
           return "";
         }
         return "voting";
       }
       return "";
+    },
+    votesLength() {
+      return Object.keys(this.$whim.state.votes).length;
     }
   },
   methods: {
     vote() {
-      if (this.$store.getters.phase === "voting" && !this.voted) {
-        this.$store.dispatch("vote", {
-          from: this.$store.state.accessUserId,
-          to: this.displayUser.id
+      if (this.$whim.state.phase === "voting" && !this.voted) {
+        const votes = this.$whim.state.votes || {};
+        votes[this.$whim.accessUser.id] = this.displayUser.id;
+        this.$whim.assignState({
+          votes: votes
         });
         // 終了判定
-        if (
-          this.$store.state.appState.votes.length >=
-          this.$store.state.users.length
-        ) {
-          this.$store.dispatch("phase", "disclosuring");
+        if (this.votesLength >= this.$whim.users.length) {
+          this.$whim.assignState({
+            phase: "disclosuring"
+          });
         }
       }
     }

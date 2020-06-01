@@ -10,7 +10,9 @@ export default {
   name: "Start",
   methods: {
     click() {
-      this.$store.dispatch("phase", "result");
+      this.$whim.assignState({
+        phase: "result"
+      });
     }
   }
 };

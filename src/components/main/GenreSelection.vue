@@ -79,7 +79,7 @@ export default {
         ];
     },
     start() {
-      this.$store.dispatch("start", this.genre);
+      this.$gameStart(this.genre);
     }
   }
 };

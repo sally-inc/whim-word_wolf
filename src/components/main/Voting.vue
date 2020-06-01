@@ -23,7 +23,7 @@ export default {
         clearInterval(update);
         this.finishVoting();
         // 他の人が終わらせた場合
-      } else if (this.$store.getters.phase !== "voting") {
+      } else if (this.$whim.state.phase !== "voting") {
         clearInterval(update);
       }
       progressBar.value = curr++;
@@ -32,7 +32,9 @@ export default {
   methods: {
     finishVoting() {
       // 二重の遷移が起こらないように
-      this.$store.dispatch("phase", "disclosuring");
+      this.$whim.assignState({
+        phase: "disclosuring"
+      });
     }
   }
 };
