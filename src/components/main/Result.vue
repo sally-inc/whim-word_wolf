@@ -10,7 +10,7 @@ export default {
   name: "Start",
   methods: {
     reset() {
-      this.$whim.deleteState();
+      this.$whim.resetState();
     }
   },
   computed: {

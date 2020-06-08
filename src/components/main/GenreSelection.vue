@@ -84,6 +84,8 @@ export default {
 }
 .select {
   margin: 10px;
+  background: #ffffff50;
+  border-radius: 3px;
 }
 
 .icon {
