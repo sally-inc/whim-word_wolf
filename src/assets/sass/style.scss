@@ -2,3 +2,12 @@
   font-family: 'F5.6';
   src: url('~@/assets/fonts/F5.6-Regular.woff2') format('woff2');
 }
+html * {
+  font-family: "Noto Sans JP", sans-serif;
+}
+.text--subtitle {
+  text-shadow:1px 1px 0 #fff, -1px -1px 0 #fff,
+              -1px 1px 0 #fff, 1px -1px 0 #fff,
+              0px 1px 0 #fff,  0-1px 0 #fff,
+              -1px 0 0 #fff, 1px 0 0 #fff;
+}
