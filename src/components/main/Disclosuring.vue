@@ -11,6 +11,7 @@ export default {
   methods: {
     click() {
       this.$whim.assignState({
+        sound: true,
         phase: "result"
       });
     }

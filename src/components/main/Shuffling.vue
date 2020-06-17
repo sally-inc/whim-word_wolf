@@ -9,7 +9,7 @@ export default {
   name: "Shuffling",
   mounted() {
     setTimeout(() => {
-      this.$whim.assignState({ phase: "discussing" });
+      this.$whim.assignState({ phase: "discussing", sound: true });
     }, 2000);
   }
 };

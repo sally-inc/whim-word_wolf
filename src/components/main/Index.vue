@@ -9,6 +9,8 @@
   </div>
 </template>
 <script>
+import { Howl } from "howler";
+const SE = new Howl({ src: require("@/assets/wolf.wav") });
 export default {
   name: "Main",
   components: {
@@ -22,6 +24,22 @@ export default {
   computed: {
     phase() {
       return this.$whim.state.phase;
+    },
+    sound() {
+      return this.$whim.state.sound;
+    }
+  },
+  watch: {
+    sound: function(newSound, oldSound) {
+      if (newSound && !oldSound) {
+        SE.volume(0.1);
+        SE.play();
+        setTimeout(() => {
+          this.$whim.assignState({
+            sound: null
+          });
+        }, 1000);
+      }
     }
   }
 };
