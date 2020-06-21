@@ -49,6 +49,12 @@ Vue.prototype.$gameStart = genre => {
     userTopic: userTopic,
     minorityUserId: minorityUserId
   });
+  setTimeout(() => {
+    Vue.prototype.$whim.assignState({
+      phase: "discussing",
+      sound: true
+    });
+  }, 2000);
 };
 
 new Vue({
