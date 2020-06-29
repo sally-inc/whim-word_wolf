@@ -15,10 +15,10 @@ export default {
     return {};
   },
   mounted() {
-    var progressBar = document.getElementById("video-progress");
+    const progressBar = document.getElementById("video-progress");
 
-    var curr = progressBar.value;
-    var update = setInterval(() => {
+    let curr = progressBar.value;
+    const update = setInterval(() => {
       if (curr > 1000) {
         clearInterval(update);
         this.finishVoting();
