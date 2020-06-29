@@ -36,7 +36,7 @@ const genres = {
     ja: "食べ飲み物"
   }
 };
-const genreList = ["random", "love", "food_drink"];
+const genreList = Object.keys(genres);
 
 export default {
   name: "GenreSelection",
